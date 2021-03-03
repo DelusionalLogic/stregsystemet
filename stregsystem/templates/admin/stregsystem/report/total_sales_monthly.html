@@ -1,0 +1,37 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Total sales monthly{% endblock %}
+{% block breadcrumbs %}
+    <div class="breadcrumbs"><a href="../..">Hjem</a></div>{% endblock %}
+
+{% block content %}
+    {% load admin_static %}
+
+    <h1>Total sales monthly</h1>
+    <p>Table showing total registered sales during a given month in the past year. Useful for the treasurer for
+        bookkeeping.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Year</th>
+            <th>Month</th>
+            <th>DKK</th>
+        </tr>
+        </thead>
+        <tr></tr>
+        {% for m in total_sales_monthly %}
+            <tr>
+                <td>
+                    {{ m.0 }}
+                </td>
+                <td>
+                    {{ m.1 }}
+                </td>
+                <td>
+                    {{ m.2 }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

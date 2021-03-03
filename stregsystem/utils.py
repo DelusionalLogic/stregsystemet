@@ -97,6 +97,21 @@ def make_unprocessed_member_filled_mobilepayment_query():
         Q(payment__isnull=True) & Q(status=MobilePayment.UNSET) & Q(member__isnull=False))
 
 
+def total_sales_monthly_query(month_year_pair):
+    """
+    Generates list of tuples (year, month, sum of sales for that month) given an input list of tuples (month, year)
+    """
+    from django.db.models import Sum
+    from stregsystem.templatetags.stregsystem_extras import money
+    from stregsystem.models import Sale
+    import datetime
+
+    res = list()
+    for m, y in month_year_pair:
+        res.append((y, m, money(
+            Sale.objects.filter(timestamp__month=m, timestamp__year=y).aggregate(Sum('price'))['price__sum'])))
+    return res
+
 def date_to_midnight(date):
     """
     Converts a datetime.date to a datetime of the same date at midnight.

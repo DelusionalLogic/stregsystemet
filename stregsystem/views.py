@@ -32,7 +32,8 @@ from stregsystem.utils import (
     qr_code,
     make_room_specific_query,
     make_unprocessed_mobilepayment_query,
-    parse_csv_and_create_mobile_payments
+    parse_csv_and_create_mobile_payments,
+    total_sales_monthly_query
 )
 
 from .booze import ballmer_peak
@@ -364,7 +365,7 @@ def mobilepaytool(request):
 
     return render(request, "admin/stregsystem/mobilepaytool.html", data)
 
-  
+
 def qr_payment(request):
     form = QRPaymentForm(request.GET)
     if not form.is_valid():
@@ -381,3 +382,19 @@ def qr_payment(request):
     data = 'mobilepay://send?{}'.format(urllib.parse.urlencode(query))
 
     return qr_code(data)
+
+
+@staff_member_required()
+def total_sales_monthly(request):
+    data = dict()
+
+    # generate pairs (month, year) from current month, going a year back
+    last_year = datetime.datetime.today().year - 1
+    current_month = datetime.datetime.today().month
+    months = [((m + current_month) % 12 + 1, last_year + (m + current_month) // 12) for m in range(0, 12)]
+
+    # for each month, year pair, sum all sales in that period, and convert numeric month to text
+    data['total_sales_monthly'] = [(y, datetime.date(1970, m, 1).strftime('%B'), p) for y, m, p in
+                                   total_sales_monthly_query(months)]
+
+    return render(request, "admin/stregsystem/report/total_sales_monthly.html", data)

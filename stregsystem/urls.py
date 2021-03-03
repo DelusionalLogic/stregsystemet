@@ -22,6 +22,7 @@ urlpatterns = [
     re_path(r'^$', views.roomindex, name="index"),
     re_path(r'^admin/batch/$', views.batch_payment, name="batch"),
     re_path(r'^admin/mobilepaytool/$', views.mobilepaytool, name="mobilepaytool"),
+    re_path(r'^admin/totalsales/$', views.total_sales_monthly, name="total_monthly_sales"),
     re_path(r'^(?P<room_id>\d+)/$', views.index, name="menu_index"),
     re_path(r'^(?P<room_id>\d+)/sale/$', views.sale, name="quickbuy"),
     re_path(r'^(?P<room_id>\d+)/sale/(?P<member_id>\d+)/$', views.menu_sale, name="menu"),
