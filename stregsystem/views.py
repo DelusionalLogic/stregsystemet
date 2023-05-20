@@ -436,7 +436,7 @@ def mobilepaytool(request):
     elif request.method == "POST" and request.POST['action'] == "Submit matched payments":
         before_count = MobilePayment.objects.filter(status=MobilePayment.APPROVED).count()
         MobilePayment.approve_member_filled_mobile_payments()
-        MobilePayment.submit_processed_mobile_payments(request.user)
+        MobilePayment.submit_correct_mobile_payments(request.user)
         count = MobilePayment.objects.filter(status=MobilePayment.APPROVED).count() - before_count
 
         data['submitted_count'] = count
@@ -448,7 +448,7 @@ def mobilepaytool(request):
         if form.is_valid():
             try:
                 # Do custom validation on form to avoid race conditions with autopayment
-                count = MobilePayment.process_submitted_mobile_payments(form.cleaned_data, request.user)
+                count = MobilePayment.submit_user_approved_mobile_payments(form.cleaned_data, request.user)
                 data['submitted_count'] = count
             except MobilePaytoolException as e:
                 data['error_count'] = e.inconsistent_mbpayments_count

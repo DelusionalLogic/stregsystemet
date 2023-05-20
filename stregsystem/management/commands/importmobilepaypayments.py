@@ -147,19 +147,20 @@ class Command(BaseCommand):
             self.write_warning(f'Does ONLY support DKK (Transaction ID: {trans_id}), was {currency_code}')
             return
 
-        amount = transaction['amount']
+        # convert to streg-ører
+        amount = transaction['amount'] * 100
 
         comment = strip_emoji(transaction['senderComment'])
 
         payment_datetime = parse_datetime(transaction['timestamp'])
 
         MobilePayment.objects.create(
-            amount=amount * 100,  # convert to streg-ører
+            amount=amount,
             member=mobile_payment_exact_match_member(comment),
             comment=comment,
             timestamp=payment_datetime,
             transaction_id=trans_id,
-            status=MobilePayment.UNSET,
+            status=MobilePayment.UNSET if amount >= 5000 else MobilePayment.LOW_AMOUNT,
         )
 
         self.write_info(f'Imported transaction id: {trans_id} for amount: {amount}')

@@ -24,7 +24,7 @@ class Command(BaseCommand):
         # count, approve, and submit mobilepayments
         before_count = MobilePayment.objects.filter(status=MobilePayment.APPROVED).count()
         MobilePayment.approve_member_filled_mobile_payments()
-        MobilePayment.submit_processed_mobile_payments(auto_user)
+        MobilePayment.submit_correct_mobile_payments(auto_user)
         count = MobilePayment.objects.filter(status=MobilePayment.APPROVED).count() - before_count
 
         self.stdout.write(

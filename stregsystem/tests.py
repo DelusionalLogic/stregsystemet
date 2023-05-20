@@ -1382,7 +1382,7 @@ class MobilePaymentTests(TestCase):
         mobile_payment.status = MobilePayment.APPROVED
         mobile_payment.save()
 
-        MobilePayment.submit_processed_mobile_payments(self.super_user)
+        MobilePayment.submit_correct_mobile_payments(self.super_user)
 
         self.assertEqual(
             Member.objects.get(username__exact="jdoe").balance, self.members["jdoe"]['balance'] + mobile_payment.amount
@@ -1399,7 +1399,7 @@ class MobilePaymentTests(TestCase):
         mobile_payment.status = MobilePayment.IGNORED
         mobile_payment.save()
 
-        MobilePayment.submit_processed_mobile_payments(self.super_user)
+        MobilePayment.submit_correct_mobile_payments(self.super_user)
 
         self.assertEqual(Member.objects.get(username__exact="tester").balance, self.members["tester"]['balance'])
 
@@ -1425,7 +1425,7 @@ class MobilePaymentTests(TestCase):
         bobby_tables_mobile_payment1.status = MobilePayment.APPROVED
         bobby_tables_mobile_payment1.save()
 
-        MobilePayment.submit_processed_mobile_payments(self.super_user)
+        MobilePayment.submit_correct_mobile_payments(self.super_user)
 
         # assert that each member who has an approved mobile payment has their balance updated by the amount given
         for approved_mobile_payment in MobilePayment.objects.filter(status__exact=MobilePayment.APPROVED):
@@ -1443,7 +1443,7 @@ class MobilePaymentTests(TestCase):
         mobile_payment.status = MobilePayment.APPROVED
         mobile_payment.save()
 
-        MobilePayment.submit_processed_mobile_payments(self.super_user)
+        MobilePayment.submit_correct_mobile_payments(self.super_user)
 
         # ensure new balance is mobilepayment amount
         self.assertEqual(
@@ -1467,7 +1467,7 @@ class MobilePaymentTests(TestCase):
         mobile_payment.status = MobilePayment.IGNORED
         mobile_payment.save()
 
-        MobilePayment.submit_processed_mobile_payments(self.super_user)
+        MobilePayment.submit_correct_mobile_payments(self.super_user)
 
         # ensure balance is still initial amount
         self.assertEqual(Member.objects.get(username__exact="jdoe").balance, self.members["jdoe"]['balance'])
@@ -1484,7 +1484,7 @@ class MobilePaymentTests(TestCase):
 
         # submit mobile payments
         self.client.login(username="superuser", password="hunter2")
-        MobilePayment.submit_processed_mobile_payments(self.super_user)
+        MobilePayment.submit_correct_mobile_payments(self.super_user)
 
         # ensure balance is still initial amount
         self.assertEqual(Member.objects.get(username__exact="jdoe").balance, self.members["jdoe"]['balance'])
@@ -1527,21 +1527,23 @@ class MobilePaymentTests(TestCase):
     def test_mobilepaytool_race_no_error(self):
         # do autopayment
         MobilePayment.approve_member_filled_mobile_payments()
-        MobilePayment.submit_processed_mobile_payments(self.autopayment_user)
+        MobilePayment.submit_correct_mobile_payments(self.autopayment_user)
         # assert that no changes have been made, also that MobilePaytoolException is not thrown
         self.assertEqual(
-            MobilePayment.process_submitted_mobile_payments(self.fixture_form_data_no_change, self.super_user), 0
+            MobilePayment.submit_user_approved_mobile_payments(self.fixture_form_data_no_change, self.super_user), 0
         )
 
     def test_mobilepaytool_race_error_marx(self):
         # do autopayment
         MobilePayment.approve_member_filled_mobile_payments()
-        MobilePayment.submit_processed_mobile_payments(self.autopayment_user)
+        MobilePayment.submit_correct_mobile_payments(self.autopayment_user)
 
         # assert exception is thrown and values in exception are as expected
         with self.assertRaises(MobilePaytoolException):
             try:
-                MobilePayment.process_submitted_mobile_payments(self.fixture_form_data_marx_approved, self.super_user)
+                MobilePayment.submit_user_approved_mobile_payments(
+                    self.fixture_form_data_marx_approved, self.super_user
+                )
             except MobilePaytoolException as e:
                 self.assertEqual(e.inconsistent_mbpayments_count, 1)
                 self.assertEqual(e.inconsistent_transaction_ids, ["241E027449465355"])
@@ -1550,12 +1552,12 @@ class MobilePaymentTests(TestCase):
     def test_mobilepaytool_race_error_marx_jdoe(self):
         # do autopayment
         MobilePayment.approve_member_filled_mobile_payments()
-        MobilePayment.submit_processed_mobile_payments(self.autopayment_user)
+        MobilePayment.submit_correct_mobile_payments(self.autopayment_user)
 
         # assert exception is thrown and values in exception are as expected
         with self.assertRaises(MobilePaytoolException):
             try:
-                MobilePayment.process_submitted_mobile_payments(
+                MobilePayment.submit_user_approved_mobile_payments(
                     self.fixture_form_data_marx_jdoe_approved, self.super_user
                 )
             except MobilePaytoolException as e:

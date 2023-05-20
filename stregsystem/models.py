@@ -19,6 +19,7 @@ from stregsystem.utils import (
     make_processed_mobilepayment_query,
     make_unprocessed_member_filled_mobilepayment_query,
     MobilePaytoolException,
+    EmailType,
 )
 from stregsystem.utils import send_payment_mail
 
@@ -354,9 +355,11 @@ class Payment(models.Model):  # id automatisk...
             self.member.make_payment(self.amount)
             super(Payment, self).save(*args, **kwargs)
             self.member.save()
+            """
             if self.member.email != "" and self.amount != 0:
                 if '@' in parseaddr(self.member.email)[1] and self.member.want_spam:
                     send_payment_mail(self.member, self.amount, mbpayment.comment if mbpayment else None)
+            """
 
     def log_from_mobile_payment(self, processed_mobile_payment, admin_user: User):
         LogEntry.objects.log_action(
@@ -384,11 +387,13 @@ class MobilePayment(models.Model):
 
     UNSET = 'U'
     APPROVED = 'A'
+    LOW_AMOUNT = 'L'
     IGNORED = 'I'
 
     STATUS_CHOICES = (
         (UNSET, 'Unset'),
         (APPROVED, 'Approved'),
+        (LOW_AMOUNT, 'Low amount'),
         (IGNORED, 'Ignored'),
     )
     member = models.ForeignKey(
@@ -423,7 +428,7 @@ class MobilePayment(models.Model):
 
     @staticmethod
     @transaction.atomic
-    def submit_processed_mobile_payments(admin_user: User):
+    def submit_correct_mobile_payments(admin_user: User):
         processed_mobile_payment: MobilePayment  # annotate iterated variable (PEP 526)
         for processed_mobile_payment in make_processed_mobilepayment_query():
             if processed_mobile_payment.status == MobilePayment.APPROVED:
@@ -434,12 +439,15 @@ class MobilePayment(models.Model):
                 processed_mobile_payment.payment = payment
                 processed_mobile_payment.save()
 
+                # send payment mail
+                send_payment_mail(processed_mobile_payment.member, processed_mobile_payment.amount, EmailType.STANDARD)
+
             elif processed_mobile_payment.status == MobilePayment.IGNORED:
                 processed_mobile_payment.log_mobile_payment(admin_user, "Ignored")
 
     @staticmethod
     @transaction.atomic
-    def process_submitted_mobile_payments(submitted_data, admin_user: User):
+    def submit_user_approved_mobile_payments(submitted_data, admin_user: User):
         """
         Takes a cleaned_form from a MobilePayToolFormSet and processes them.
         The return value is the number of rows procesed.
@@ -473,8 +481,9 @@ class MobilePayment(models.Model):
 
         for row in cleaned_data:
             processed_mobile_payment = MobilePayment.objects.get(id=row['id'].id)
+            status = row['status']
             # If approved, we need to create a payment and relate said payment to the mobilepayment.
-            if row['status'] == MobilePayment.APPROVED:
+            if status == MobilePayment.APPROVED or status == MobilePayment.LOW_AMOUNT:
                 payment_amount = processed_mobile_payment.amount
                 member = Member.objects.get(id=row['member'].id)
 
@@ -485,6 +494,14 @@ class MobilePayment(models.Model):
                 processed_mobile_payment.payment = payment
                 processed_mobile_payment.member = member
                 processed_mobile_payment.log_mobile_payment(admin_user, "Approved")
+
+                if status is MobilePayment.APPROVED:
+                    # send shame mail
+                    send_payment_mail(member, payment_amount, EmailType.SHAME, processed_mobile_payment.comment)
+                elif status is MobilePayment.LOW_AMOUNT:
+                    # send low amount mail
+                    send_payment_mail(member, payment_amount, EmailType.LOW_AMOUNT, processed_mobile_payment.comment)
+
             # If ignored, we need to log who did it.
             elif row['status'] == MobilePayment.IGNORED:
                 processed_mobile_payment.log_mobile_payment(admin_user, "Ignored")
