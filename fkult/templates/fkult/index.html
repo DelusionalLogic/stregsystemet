@@ -1,0 +1,48 @@
+{% load fkult_extras %}
+
+{% load static %}
+
+
+{% block extrahead %}
+
+    <head>
+        <meta charset="UTF-8">
+        <title>F-Kult calendar season: {{ curr_season.season_str }}</title> {# TODO add data.current_season #}
+    </head>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block title %}<h1>F-kult calendar season: {{ curr_season.season_str }}</h1>{% endblock %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Theme</th>
+            <th>Proposer</th>
+            <th>Movie #1</th>
+            <th>Movie #2</th>
+        </tr>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.event_date }}</td>
+                <td>{{ event.theme }}</td>
+                <td>{{ event.proposer | proposer_format }}</td>
+                {% for movie in event.movies.all %}
+                    <td>{{ movie | movie_imdb_link | safe}}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    </body>
+    </html>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block title %}<h1>F-kult: Lookup movie</h1>{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="{% static '/stregsystem/select2-stregsystem.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Lookup movie">
+    </form>
+    {% if response %}
+        <h2>Result</h2>
+        <p>{{ response }}</p>
+    {% endif %}
+{% endblock %}

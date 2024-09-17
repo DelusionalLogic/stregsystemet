@@ -1,0 +1,23 @@
+{% load static %}
+
+{% block title %}<h1>F-kult: Generate season</h1>{% endblock %}
+
+{% block content %}
+    <p>
+        Generate events for this season from first event date to last event date.
+    </p>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if season %}
+        {% if created %}
+            <h2>Season created.</h2> {# Never visible due to redirect, eh #}
+        {% else %}
+            <h2>Error; season already exists.</h2>
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,79 @@
+{% load fkult_extras %}
+
+{% load static %}
+
+
+{% block extrahead %}
+
+    <head>
+        <meta charset="UTF-8">
+        <title>F-Kult calendar season: {{ curr_season.season_str }}</title> {# TODO add data.current_season #}
+    </head>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .hidden {
+            visibility: hidden;
+            position: absolute
+        }
+
+
+    </style>
+
+{% endblock %}
+
+{% block title %}<h1>F-kult vote for season: {{ curr_season.season_str }}</h1>{% endblock %}
+
+{% block content %}
+
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ vote_formset.management_form }}
+        {{ vote_formset.non_form_errors.as_ul }}
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Theme</th>
+                <th>Movies</th>
+                <th>Proposer</th>
+                <th>Votes</th>
+            </tr>
+            {% for vote in vote_formset.forms %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+
+                    {% for el in vote.visible_fields %}
+
+                        {# Include the hidden fields in the form #}
+                        {% for hidden in vote.hidden_fields %}
+                            <span class="hidden">{{ hidden }}</span>
+                        {% endfor %}
+
+                        {{ el.errors.as_ul }}
+
+                        <td>
+                            {% if el.name == "theme" %}
+                                {{ el.value }}
+                                <span class="hidden">{{ el }}</span>
+                            {% elif el.name == "movies" %}
+                                {{ el.initial | movie_imdb_link_list | safe }}
+                                <span class="hidden">{{ el }}</span>
+                            {% elif el.name == "proposer" %}
+                                {{ el.initial | proposer_format }}
+                                <span class="hidden">{{ el }}</span>
+                            {% elif el.name == "votes" %}
+                                {{ el }}
+                            {% else %}
+                                {{ el }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Submit event suggestion">
+    </form>
+{% endblock %}

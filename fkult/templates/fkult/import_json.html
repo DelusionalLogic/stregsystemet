@@ -1,0 +1,16 @@
+{% load static %}
+
+{% block title %}<h1>F-kult: Import JSON</h1>{% endblock %}
+
+{% block content %}
+    <form method="post" action="", enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>{{ form.non_field_errors }}</p>
+        <p>{{ form.json.label_tag}} {{ form.json.help_text }}</p>
+        <p>
+            {{ form.json.errors }}
+            {{ form.json }}
+        </p>
+        <input type="submit" value="Upload json">
+    </form>
+{% endblock %}

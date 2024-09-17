@@ -1,0 +1,17 @@
+{% load static %}
+
+{% block title %}<h1>F-kult: Suggest event</h1>{% endblock %}
+
+{% block content %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <table>
+            {{ movie_formset.as_table }}
+            {{ event_form.as_table }}
+        </table>
+        <input type="submit" value="Submit event suggestion">
+    </form>
+    {% if status %}
+        Submitted event: {{ status.1 }}
+    {% endif %}
+{% endblock %}
