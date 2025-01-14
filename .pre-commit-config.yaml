@@ -1,0 +1,8 @@
+repos:
+-   repo: https://github.com/psf/black
+    rev: v23.10.1  # Use the specific version of the pre-commit hook
+    hooks:
+    -   id: black
+        args: ['--check', '--target-version', 'py36', '--line-length', '120', '--skip-string-normalization', '--exclude', '(migrations|urls\.py)']
+        name: black
+        files: stregsystem stregreport kiosk
