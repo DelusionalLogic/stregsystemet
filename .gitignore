@@ -24,3 +24,4 @@ stregsystem.log
 .direnv
 .envrc
 result
+*.qcow2
