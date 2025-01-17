@@ -66,7 +66,7 @@ If you need the path to some of your extra files, you can use the following help
 You can use the `themes_static` template tag to get the path to the static themes folder. Use it like this:
 
 ```html
-<img src="{% themes_static 'mytheme/image.svg' %}">
+<img src="{{ '/stregsystem/themes/fireworks/rocket.svg' | relative_url }}" alt="Rocket">
 ```
 
 There is also `themes_template` for the template themes folder.
@@ -84,7 +84,7 @@ const src = themes_static_url + "mytheme/image.svg";
 There is no solution for static css files, but you can use inline styles in the html template:
 
 ```html
-<div style="background-image:url({% themes_static 'mytheme/image.svg' %})"></div>
+<img src="{{ '/static/stregsystem/themes/fireworks/rocket.svg' | relative_url }}" alt="Rocket">
 ```
 
 ## Style the frontend
