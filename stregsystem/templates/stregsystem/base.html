@@ -28,7 +28,7 @@
 
 <header>
   <div class="left">
-    <input type="button" onclick="location.href='/{{room.id}}';" value="Genstart" tabindex="10" accesskey="q">
+    <input type="button" onclick="location.href='/{{room.id}}';" value="Genstart" accesskey="q">
   </div>
   <h1>
     {% block heading %}
@@ -36,8 +36,8 @@
     {% endblock %}
   </h1>
   <div class="right">
-    <input type="button" onclick="location.href='/{{room.id}}';" value="Menu" tabindex="11" />
-    <input type="button" onclick="location.href='/signup'" value="Tilmeld" tabindex="12"/>
+    <input type="button" onclick="location.href='/{{room.id}}';" value="Menu"/>
+    <input type="button" onclick="location.href='/signup'" value="Tilmeld"/>
   </div>
 </header>
 <div id="base-content">
