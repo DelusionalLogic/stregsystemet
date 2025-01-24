@@ -70,10 +70,10 @@ def razzia_menu(request, new_text=None, title=None):
 
 @permission_required("razzia.add_razzia")
 def new_razzia(request):
-    razzia = Razzia(name="Foobar V2", turn_interval=datetime.timedelta(minutes=30))
+    razzia = Razzia(name="Foobar", turn_interval=datetime.timedelta(minutes=30))
     razzia.save()
 
-    return redirect('razzia_view', razzia_id=razzia.pk)
+    return redirect('razzia_settings_view', razzia_id=razzia.pk)
 
 
 @permission_required("razzia.view_razziaentry")
@@ -81,3 +81,9 @@ def razzia_members(request, razzia_id, title=None):
     razzia = get_object_or_404(Razzia, pk=razzia_id)
     unique_members = razzia.members.all().distinct().count()
     return render(request, 'members.html', locals())
+
+
+@permission_required("stregreport.host_razzia")
+def razzia_settings(request, razzia_id, title=None):
+    razzia = get_object_or_404(Razzia, pk=razzia_id)
+    return render(request, 'settings.html', locals())
