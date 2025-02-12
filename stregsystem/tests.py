@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import json
 from collections import Counter
 from copy import deepcopy
 from unittest import mock
@@ -2272,3 +2273,75 @@ class MailTests(TestCase):
 
         signup_request.approve()
         mock_mail_method.assert_called_once()
+
+
+class ApiTests(TestCase):
+    """
+    A lot of the API testing is done separately using Dredd and OpenAPI.
+    These are edge-cases which can't be expressed in OpenAPI.
+    """
+
+    def setUp(self):
+        member = Member.objects.create(username="martin_p", email="test@example.com", signup_due_paid=False)
+        member.save()
+
+    def test_signup_duplicate_username(self):
+        response = self.client.post(
+            reverse('api_signup'),
+            json.dumps(
+                {
+                    'education': "sw",
+                    'username': "martin_p",  # Note: Duplicate username
+                    'firstname': "Martin",
+                    'lastname': "P.",
+                    'email': "test2@example.com",
+                    'gender': "M",
+                }
+            ),
+            content_type="application/json",
+        )
+
+        self.assertNotEquals(response.status_code, 200)
+
+    def test_signup_partial_form_no_name(self):
+        response = self.client.post(
+            reverse('api_signup'),
+            json.dumps({'education': "sw", 'username': "martin_p2", 'email': "test2@example.com", 'gender': "M"}),
+            content_type="application/json",
+        )
+
+        self.assertNotEquals(response.status_code, 200)
+
+    def test_signup_partial_form_no_username(self):
+        response = self.client.post(
+            reverse('api_signup'),
+            json.dumps(
+                {
+                    'education': "sw",
+                    'firstname': "Martin",
+                    'lastname': "P.",
+                    'email': "test2@example.com",
+                    'gender': "M",
+                }
+            ),
+            content_type="application/json",
+        )
+
+        self.assertNotEquals(response.status_code, 200)
+
+    def test_signup_partial_form_no_education(self):
+        response = self.client.post(
+            reverse('api_signup'),
+            json.dumps(
+                {
+                    'username': "martin_p2",
+                    'firstname': "Martin",
+                    'lastname': "P.",
+                    'email': "test2@example.com",
+                    'gender': "M",
+                }
+            ),
+            content_type="application/json",
+        )
+
+        self.assertNotEquals(response.status_code, 200)

@@ -16,6 +16,7 @@ from collections import (
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import permission_required
 from django.core import management
+from django.core.exceptions import ValidationError
 from django.db.models import Q, Count, Sum
 from django.forms import modelformset_factory
 from django.http import HttpResponsePermanentRedirect, HttpResponseBadRequest, JsonResponse
@@ -594,6 +595,28 @@ def get_payment_qr(request):
     return qr_code(mobilepay_launch_uri(username, amount))
 
 
+def perform_signup(validated_form: SignupForm) -> PendingSignup:
+    if not validated_form.is_valid():
+        raise ValidationError("The provided form contains errors: %s" % validated_form.errors)
+
+    if Member.objects.filter(username=validated_form.cleaned_data.get('username')).all().count() > 0:
+        raise ValidationError("Username already taken")
+
+    member = Member.objects.create(
+        username=validated_form.cleaned_data.get('username'),
+        firstname=validated_form.cleaned_data.get('firstname'),
+        lastname=validated_form.cleaned_data.get('lastname'),
+        email=validated_form.cleaned_data.get('email'),
+        notes=validated_form.cleaned_data.get('notes'),
+        gender=validated_form.cleaned_data.get('gender'),
+        signup_due_paid=False,
+    )
+    signup_request = PendingSignup(member=member, due=200 * 100)
+    signup_request.save()
+
+    return signup_request
+
+
 def signup(request):
     is_post = request.method == "POST"
     form = SignupForm(request.POST) if is_post else SignupForm()
@@ -603,19 +626,9 @@ def signup(request):
             form.add_error("username", "Brugernavn allerede i brug")
             return render(request, "stregsystem/signup.html", locals())
 
-        member = Member.objects.create(
-            username=form.cleaned_data.get('username'),
-            firstname=form.cleaned_data.get('firstname'),
-            lastname=form.cleaned_data.get('lastname'),
-            email=form.cleaned_data.get('email'),
-            notes=form.cleaned_data.get('notes'),
-            gender=form.cleaned_data.get('gender'),
-            signup_due_paid=False,
-        )
-        signup_request = PendingSignup(member=member, due=200 * 100)
-        signup_request.save()
+        pending_signup = perform_signup(form)
 
-        return redirect('signup_status', signup_id=signup_request.id)
+        return redirect('signup_status', signup_id=pending_signup.id)
 
     return render(request, "stregsystem/signup.html", locals())
 
@@ -761,6 +774,64 @@ def get_named_products(request):
     items = NamedProduct.objects.all()
     items_dict = {item.name: item.product.id for item in items}
     return JsonResponse(items_dict, json_dumps_params={'ensure_ascii': False})
+
+
+def get_signup_status(request):
+    username = request.GET.get('username') or None
+    if username is None:
+        return HttpResponseBadRequest("Parameter missing: username")
+
+    try:
+        member = Member.objects.get(username=username)
+    except Member.DoesNotExist:
+        return HttpResponseBadRequest("Member not found")
+
+    try:
+        pending_signup = PendingSignup.objects.get(member=member)
+        return JsonResponse({'due': pending_signup.due, 'status': pending_signup.status})
+    except PendingSignup.DoesNotExist:
+        # Member exists but no signup object does, assume it was approved.
+        return JsonResponse({'due': 0, 'status': ApprovalModel.APPROVED})
+
+
+@csrf_exempt
+def post_signup(request):
+    if request.method != "POST":
+        return HttpResponseBadRequest()
+    else:
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest("Invalid JSON payload.")
+
+        # Convert 'education' to proper field 'notes'
+        try:
+            data['notes'] = data.pop('education')
+        except KeyError:
+            return HttpResponseBadRequest('Parameter invalid: education')
+
+        signup_form = SignupForm(data)
+
+        if not signup_form.is_valid():
+            return HttpResponseBadRequest(f"Parameter invalid: {', '.join(signup_form.errors.keys())}")
+
+        try:
+            pending_signup = perform_signup(signup_form)
+        except ValidationError as err:
+            return HttpResponseBadRequest(err.message)
+
+        msg, status, ret_obj = (
+            "OK",
+            200,
+            {
+                'due': pending_signup.due,
+                'username': pending_signup.member.username,
+            },
+        )
+
+        return JsonResponse(
+            {'status': status, 'msg': msg, 'values': ret_obj}, json_dumps_params={'ensure_ascii': False}
+        )
 
 
 @csrf_exempt

@@ -7,7 +7,7 @@ info:
     Existing client software utilizing the API include Stregsystem-CLI (STS) and Fappen (F-Club Web App).
     
     Disclaimer - The implementation is not generated using this specification, therefore they can get out of sync if changes are made directly to the codebase without updating the OpenAPI specification file accordingly.
-  version: "1.1"
+  version: "1.1.1"
 externalDocs:
   description: Find out more about Stregsystemet at GitHub.
   url: https://github.com/f-klubben/stregsystemet/
@@ -21,6 +21,8 @@ tags:
     description: Related to the products.
   - name: Sale
     description: Related to performing a sale.
+  - name: Signup
+    description: Related to registration of new members.
 paths:
   /api/member:
     get:
@@ -159,6 +161,38 @@ paths:
           $ref: '#/components/responses/SaleSuccess'
         '400':
           $ref: '#/components/responses/Member_RoomIdParameter_BadResponse'
+  /api/signup:
+    post:
+      tags:
+        - Signup
+      summary: Posts a signup
+      description: Performs a signup using member info.
+      operationId: api_signup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/signup_input'
+      responses:
+        '200':
+          $ref: '#/components/responses/SignupSuccess'
+        '400':
+          $ref: '#/components/responses/Signup_BadResponse'
+  /api/signup/status:
+    get:
+      tags:
+        - Signup
+      summary: Gets status regarding a signup
+      description: Retrieves the signup status for a specific member by username.
+      operationId: api_signup_status
+      parameters:
+        - $ref: '#/components/parameters/username_param'
+      responses:
+        '200':
+          $ref: '#/components/responses/SignupStatus'
+        '400':
+          $ref: '#/components/responses/MemberUsernameParameter_BadResponse'
 components:
   examples:
     MemberNotFoundExample:
@@ -182,7 +216,20 @@ components:
     MissingMemberUsernameExample:
       summary: No username given
       value: "Parameter missing: username"
+    UsernameTakenExample:
+      summary: Member with that username already exist
+      value: "Username taken"
+    MissingOrInvalidParameterExample:
+      summary: A parameter is invalid or missing
+      value: "Parameter invalid: <parameter>"
   parameters:
+    signup_id_param:
+      name: signup_id
+      in: query
+      description: Signup ID of the signup to retrieve.
+      required: true
+      schema:
+        $ref: '#/components/schemas/signup_id'
     member_id_param:
       name: member_id
       in: query
@@ -239,6 +286,12 @@ components:
     missingMemberUsernameMessage:
       type: string
       example: "Parameter missing: username"
+    usernameTakenMessage:
+      type: string
+      example: "Username taken"
+    invalidParameterMessage:
+      type: string
+      example: "Parameter invalid: <parameter>"
     balance:
       type: integer
       example: 20000
@@ -257,6 +310,35 @@ components:
     room_id:
       type: integer
       example: 10
+    email:
+      type: string
+      format: email
+      example: kresten@example.org
+    firstname:
+      type: string
+      example: Kresten
+    lastname:
+      type: string
+      example: Laust
+    education:
+      type: string
+      description: Acknowledged shortening, e.g. sw/ixd/dad/dat
+      example: sw
+    gender:
+      type: string
+      enum:
+        - U
+        - M
+        - F
+      example: M
+    approval_status:
+      type: string
+      description: U = Unreviewed, A = Approved, I = Ignored, R = Rejected.
+      enum:
+        - U
+        - A
+        - I
+        - R
     timestamp:
       type: string
       format: date-time
@@ -275,12 +357,23 @@ components:
       example: 1800
     stregoere_balance:
       type: integer
+      example: 15000
+    stregoere_due:
+      type: integer
       example: 20000
     stregkroner_balance:
       description: Stregbalance in kroner, only used in API-Sale
       type: number
       format: float
       example: 182.00
+    signup_id:
+      type: integer
+      example: 5
+    named_products_example:
+      type: object
+      properties:
+        beer:
+          $ref: '#/components/schemas/product_id'
     sale_input:
       type: object
       properties:
@@ -290,6 +383,21 @@ components:
           $ref: '#/components/schemas/buystring'
         room:
           $ref: '#/components/schemas/room_id'
+    signup_input:
+      type: object
+      properties:
+        education:
+          $ref: '#/components/schemas/education'
+        username:
+          $ref: '#/components/schemas/username'
+        email:
+          $ref: '#/components/schemas/email'
+        firstname:
+          $ref: '#/components/schemas/firstname'
+        lastname:
+          $ref: '#/components/schemas/lastname'
+        gender:
+          $ref: '#/components/schemas/gender'
     active_product:
       type: object
       properties:
@@ -359,6 +467,13 @@ components:
     member_has_low_balance:
       type: boolean
       example: false
+    signup_values_result_example:
+      type: object
+      properties:
+        due:
+          $ref: '#/components/schemas/stregoere_due'
+        username:
+          $ref: '#/components/schemas/username'
     sale_values_result_example:
       type: object
       properties:
@@ -472,6 +587,17 @@ components:
             properties:
               sales:
                 $ref: '#/components/schemas/sales'
+    SignupStatus:
+      description: Signup information found.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              due:
+                $ref: '#/components/schemas/stregoere_due'
+              status:
+                $ref: '#/components/schemas/approval_status'
     NamedProducts:
       description: Dictionary of all named_product names.
       content:
@@ -511,6 +637,21 @@ components:
                 example: "OK"
               values:
                 $ref: '#/components/schemas/sale_values_result_example'
+    SignupSuccess:
+      description: An object containing info regarding the signup.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              msg:
+                type: string
+                example: "OK"
+              values:
+                $ref: '#/components/schemas/signup_values_result_example'
     QRCodeGenerated:
       description: QR code with link to open MobilePay with the provided information.
       content:
@@ -594,3 +735,16 @@ components:
               $ref: '#/components/examples/InvalidRoomIdExample'
             missingRoomId:
               $ref: '#/components/examples/MissingRoomIdExample'
+    Signup_BadResponse:
+      description: Username is taken, missing parameter, or invalid parameter.
+      content:
+        text/html:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/usernameTakenMessage'
+              - $ref: '#/components/schemas/invalidParameterMessage'
+          examples:
+            usernameTaken:
+              $ref: '#/components/examples/UsernameTakenExample'
+            invalidParameter:
+              $ref: '#/components/examples/MissingOrInvalidParameterExample'
