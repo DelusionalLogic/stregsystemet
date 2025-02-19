@@ -1,0 +1,52 @@
+{% load static %}
+
+<style>
+    .body {
+        margin: 0;
+        overflow: hidden;
+    }
+    .container {
+        text-align: center;
+        width: 700px;
+        height: 50px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+    }
+</style>
+<body>
+    <div id="container" class="container">
+        <img src="{% static "/stregsystem/logo/logo-monochrome.svg" %}" width="150px">
+        <h1>FEJL 404: Denne side blev ikke fundet!<br />Denne hændelse vil blive rapporteret til TREOEN!</h1>
+    </div>
+</body>
+<script>
+    const container = document.querySelector("#container");
+    let posX = 100,
+        posY = 100;
+    let velocityX = 2,
+        velocityY = 2;
+    const containerWidth = 700,
+        containerHeigth = 260;
+
+    function updatePosition() {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        posX += velocityX;
+        posY += velocityY;
+
+        if (posX + containerWidth >= windowWidth || posX <= 0) {
+            velocityX = -velocityX;
+        }
+
+        if (posY + containerHeigth >= windowHeight || posY <= 0) {
+            velocityY = -velocityY;
+        }
+
+        container.style.left = posX + "px";
+        container.style.top = posY + "px";
+    }
+
+    setInterval(updatePosition, 10);
+</script>
