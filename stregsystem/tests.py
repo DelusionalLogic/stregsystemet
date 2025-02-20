@@ -222,6 +222,12 @@ class SaleViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "stregsystem/error_productdoesntexist.html")
 
+    def test_products_show_when_quickbuying(self):
+        response = self.client.post(reverse('quickbuy', args="1"), {"quickbuy": "jokke 1"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Ingen produkter.")
+
     @patch('stregsystem.models.Member.can_fulfill')
     def test_make_sale_menusale_fail(self, can_fulfill):
         can_fulfill.return_value = False

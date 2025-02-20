@@ -122,6 +122,10 @@ def sale(request, room_id):
     room = get_object_or_404(Room, pk=room_id)
     news = __get_news()
     product_list = __get_productlist(room_id)
+    ProductNotePair = namedtuple('ProductNotePair', 'product note')
+    product_note_pair_list = [
+        ProductNotePair(product, __get_active_notes_for_product(product)) for product in __get_productlist(room_id)
+    ]
 
     buy_string = request.POST['quickbuy'].strip()
     # Handle empty line
@@ -188,6 +192,10 @@ def _multibuy_hint(now, member):
 def quicksale(request, room, member: Member, bought_ids):
     news = __get_news()
     product_list = __get_productlist(room.id)
+    ProductNotePair = namedtuple('ProductNotePair', 'product note')
+    product_note_pair_list = [
+        ProductNotePair(product, __get_active_notes_for_product(product)) for product in __get_productlist(room.id)
+    ]
     now = timezone.now()
 
     # Retrieve products and construct transaction
@@ -228,6 +236,10 @@ def quicksale(request, room, member: Member, bought_ids):
 def usermenu(request, room, member, bought, from_sale=False):
     negative_balance = member.balance < 0
     product_list = __get_productlist(room.id)
+    ProductNotePair = namedtuple('ProductNotePair', 'product note')
+    product_note_pair_list = [
+        ProductNotePair(product, __get_active_notes_for_product(product)) for product in __get_productlist(room.id)
+    ]
     news = __get_news()
     promille = member.calculate_alcohol_promille()
     (
