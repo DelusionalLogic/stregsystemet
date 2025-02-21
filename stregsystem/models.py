@@ -577,6 +577,12 @@ class Room(models.Model):
 
 class Product(models.Model):  # id automatisk...
     name = models.CharField(max_length=64)
+    name_style = models.TextField(
+        max_length=64,
+        blank=True,
+        help_text="If product is very cool, usually something like: font-size: 2em; font-weight: bold; color: red; margin: 1em 0;",
+    )
+    description = models.CharField(max_length=64, blank=True)
     price = models.IntegerField()  # penge, oere...
     active = models.BooleanField()
     start_date = models.DateField(blank=True, null=True)
@@ -640,9 +646,9 @@ class ProductNote(models.Model):
     text = models.TextField()
     active = models.BooleanField(default=True)
     background_color = models.CharField(
-        max_length=20, help_text="Write a valid html color (default: red)", blank="red"
+        max_length=20, help_text="Write a valid html color", default="yellow"
     )  # If anyone wants to use LightGoldenRodYellow, they can
-    text_color = models.CharField(max_length=20, help_text="Write a valid html color (default: black)", blank="black")
+    text_color = models.CharField(max_length=20, help_text="Write a valid html color", default="black")
     start_date = models.DateField()
     end_date = models.DateField()
     comment = models.TextField(blank=True)

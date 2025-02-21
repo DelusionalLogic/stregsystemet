@@ -1,94 +1,74 @@
 [
   {
-    "model": "auth.user",
-    "pk": 1,
-    "fields": {
-      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
-      "is_superuser": true,
-      "username": "tester",
-      "first_name": "test",
-      "last_name": "testsen",
-      "is_staff": true
-    }
-  },
-  {
-    "model": "auth.user",
-    "pk": 2,
-    "fields": {
-      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
-      "is_superuser": true,
-      "username": "q",
-      "first_name": "q",
-      "last_name": "q",
-      "is_staff": true
-    }
-  },
-  {
-    "model": "auth.user",
-    "pk": 3,
-    "fields": {
-      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
-      "username": "nodough",
-      "first_name": "no",
-      "last_name": "dough"
-    }
-  },
-  {
-    "model": "auth.user",
-    "pk": 4,
-    "fields": {
-      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
-      "username": "lowdough",
-      "first_name": "low",
-      "last_name": "dough"
-    }
-  },
-  {
     "model": "stregsystem.member",
     "pk": 1,
     "fields": {
+      "active": true,
       "username": "tester",
+      "year": "2025",
       "firstname": "Test",
       "lastname": "Testsen",
+      "gender": "",
       "email": "plznospam@fklub.dk",
+      "want_spam": true,
       "balance": 13366037,
-      "notes": "This is a test user."
+      "undo_count": 0,
+      "notes": "This is a test user.",
+      "signup_due_paid": true
     }
   },
   {
     "model": "stregsystem.member",
     "pk": 2,
     "fields": {
+      "active": true,
       "username": "q",
+      "year": "2025",
       "firstname": "q",
       "lastname": "q",
+      "gender": "",
       "email": "plznospam@fklub.dk",
+      "want_spam": true,
       "balance": 13366037,
-      "notes": "This is a test user with a short name for maximum testing speed."
+      "undo_count": 0,
+      "notes": "This is a test user with a short name for maximum testing speed.",
+      "signup_due_paid": true
     }
   },
   {
     "model": "stregsystem.member",
     "pk": 3,
     "fields": {
+      "active": true,
       "username": "nodough",
+      "year": "2025",
       "firstname": "No",
       "lastname": "Dough",
+      "gender": "",
       "email": "plznospam@fklub.dk",
+      "want_spam": true,
       "balance": 0,
-      "notes": "This is a test user with no stregdollars."
+      "undo_count": 0,
+      "notes": "This is a test user with no stregdollars.",
+      "signup_due_paid": true
     }
   },
   {
     "model": "stregsystem.member",
     "pk": 4,
     "fields": {
+      "active": true,
       "username": "lowdough",
+      "year": "2025",
       "firstname": "Low",
       "lastname": "Dough",
+      "gender": "",
       "email": "plznospam@fklub.dk",
+      "want_spam": true,
       "balance": 1500,
-      "notes": "This is a test user with only 15 stregdollars."
+      "undo_count": 0,
+      "notes": "This is a test user with only 15 stregdollars.",
+      "signup_due_paid": true
     }
   },
   {
@@ -218,17 +198,40 @@
     }
   },
   {
+    "model": "stregsystem.room",
+    "pk": 1,
+    "fields": {
+      "name": "testrummet",
+      "description": "127.0.0.1",
+      "notes": ""
+    }
+  },
+  {
+    "model": "stregsystem.room",
+    "pk": 2,
+    "fields": {
+      "name": "maymayrummet",
+      "description": "svedigt",
+      "notes": ""
+    }
+  },
+  {
     "model": "stregsystem.product",
     "pk": 11,
     "fields": {
       "name": "Stregdollar",
       "price": 100,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         14
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -239,11 +242,16 @@
       "name": "\u00d8l(Gr\u00f8n, Classic, <b>Gulddamer</b>) (excl. pant)",
       "price": 750,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         3
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -254,11 +262,16 @@
       "name": "Cocio <b>(Mellem)</b>",
       "price": 1818,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         12
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -269,6 +282,12 @@
       "name": "Pant B (plastflasker under 1 liter)",
       "price": 150,
       "active": true,
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
+      "categories": [],
       "rooms": [
         1
       ]
@@ -281,12 +300,16 @@
       "name": "Voksenvand (1 kop)",
       "price": 150,
       "active": true,
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
       "caffeine_content_mg": 70,
-      "rooms": [
-        1
-      ],
       "categories": [
         6
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -297,10 +320,15 @@
       "name": "Limfjordsporter (excl. pant)",
       "price": 1000,
       "active": true,
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
+      "categories": [],
       "rooms": [
         1
-      ],
-      "categories": []
+      ]
     }
   },
   {
@@ -310,11 +338,16 @@
       "name": "S\u00f8m",
       "price": 300,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         13
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -322,14 +355,20 @@
     "model": "stregsystem.product",
     "pk": 51,
     "fields": {
-      "name": "<h1>Futtetyr</h1>",
+      "name": "Futtetyr",
+      "name_style": "font-size: 2em;\nfont-weight: bold;\ncolor: red;\nmargin: .5em 0;",
       "price": 33300,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         14
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -340,11 +379,16 @@
       "name": "Mambo No. 8",
       "price": 800,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         7
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -352,14 +396,20 @@
     "model": "stregsystem.product",
     "pk": 1836,
     "fields": {
-      "name": "<h1>FLAN billet</h1>",
+      "name": "FLAN billet",
+      "name_style": "font-size: 2em;\nfont-weight: bold;\ncolor: red;\nmargin: .5em 0;",
       "price": 4269,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         5
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -370,11 +420,16 @@
       "name": "Life potion (excl. pant)",
       "price": 1316,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         11
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -385,11 +440,16 @@
       "name": "Kildev\u00e6ld uden pant (excl. brus)\"",
       "price": 706,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         2
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -400,6 +460,12 @@
       "name": "Pant A (glasflasker og metald\u00e5ser under 1 liter)",
       "price": 100,
       "active": true,
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
+      "categories": [],
       "rooms": [
         1
       ]
@@ -412,11 +478,16 @@
       "name": "Grimbergen (excl. pant)",
       "price": 1900,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         3
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -427,11 +498,16 @@
       "name": "Somersby (incl. pant)",
       "price": 1540,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         17
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -442,11 +518,16 @@
       "name": "Apache attack helicopter",
       "price": 1280,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         10
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -457,11 +538,16 @@
       "name": "Kakao (0,46 kop)",
       "price": 69,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         12
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -472,11 +558,16 @@
       "name": "Sportycola (excl. pant)",
       "price": 600,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         2
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -487,10 +578,15 @@
       "name": "Kinley (excl. pant)",
       "price": 680,
       "active": true,
-      "rooms": [
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
+      "categories": [
         1
       ],
-      "categories": [
+      "rooms": [
         1
       ]
     }
@@ -502,11 +598,16 @@
       "name": "Bober \u00d8l (excl. pant x2)",
       "price": 650,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         3
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -514,14 +615,21 @@
     "model": "stregsystem.product",
     "pk": 1903,
     "fields": {
-      "name": "<h3>M\u00e5nedens \u00d8l</h3><br>September: Bonk Beer",
+      "name": "M\u00e5nedens \u00d8l",
+      "name_style": "font-size: 1.15em;\nfont-weight: bold;\nmargin: 1em 0;",
+      "description": "September: Bonk Beer",
       "price": 1460,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         4
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -532,11 +640,16 @@
       "name": "Tebrev (Partibestemt smag)",
       "price": 90,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         18
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -547,11 +660,16 @@
       "name": "Raml\u00f8se/ vand med brus (excl. pant)",
       "price": 808,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         2
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -562,11 +680,16 @@
       "name": "Juice (Solita, Rynkeby)",
       "price": 1131,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         16
+      ],
+      "rooms": [
+        1
       ]
     }
   },
@@ -577,12 +700,51 @@
       "name": "Faxe Kondi Pro",
       "price": 1600,
       "active": true,
-      "rooms": [
-        1
-      ],
+      "start_date": null,
+      "quantity": 0,
+      "deactivate_date": null,
+      "alcohol_content_ml": 0,
+      "caffeine_content_mg": 0,
       "categories": [
         1
+      ],
+      "rooms": [
+        1
       ]
+    }
+  },
+  {
+    "model": "stregsystem.productnote",
+    "pk": 1,
+    "fields": {
+      "text": "<div id=\"maanedens-oel\"></div>\r\n<script>\r\n  var p = \"Ny!\";\r\n  var elem = document.getElementById(\"maanedens-oel\").parentElement;\r\n  // Set it to 7 and not 40 if you want the tests to break ;)\r\n  if (new Date().getDate() <= 40) {\r\n    elem.innerText = p;\r\n  }\r\n  else {\r\n    elem.remove();\r\n  }\r\n</script>",
+      "active": true,
+      "background_color": "yellow",
+      "text_color": "black",
+      "start_date": "2025-01-14",
+      "end_date": "2125-01-14",
+      "comment": "",
+      "products": [
+        1903
+      ],
+      "rooms": []
+    }
+  },
+  {
+    "model": "stregsystem.productnote",
+    "pk": 2,
+    "fields": {
+      "text": "Udg\u00e5r!",
+      "active": true,
+      "background_color": "red",
+      "text_color": "black",
+      "start_date": "2025-01-14",
+      "end_date": "2125-01-14",
+      "comment": "",
+      "products": [
+        1879
+      ],
+      "rooms": []
     }
   },
   {
@@ -898,29 +1060,13 @@
     }
   },
   {
-    "model": "stregsystem.room",
-    "pk": 1,
-    "fields": {
-      "name": "testrummet",
-      "description": "127.0.0.1"
-    }
-  },
-  {
-    "model": "stregsystem.room",
-    "pk": 2,
-    "fields": {
-      "name": "maymayrummet",
-      "description": "svedigt"
-    }
-  },
-  {
     "model": "stregsystem.sale",
     "pk": 1,
     "fields": {
       "member": 1,
       "product": 11,
       "room": 1,
-      "timestamp": "2017-03-13T12:52:52.142+00:00",
+      "timestamp": "2017-03-13T12:52:52.142Z",
       "price": 100
     }
   },
@@ -931,19 +1077,8 @@
       "member": 1,
       "product": 32,
       "room": 1,
-      "timestamp": "2017-03-13T12:54:12.423+00:00",
+      "timestamp": "2017-03-13T12:54:12.423Z",
       "price": 200
-    }
-  },
-  {
-    "model": "stregsystem.sale",
-    "pk": 3,
-    "fields": {
-      "member": 1,
-      "product": 14,
-      "room": 1,
-      "timestamp": "2017-03-13T13:38:10.573+00:00",
-      "price": 300
     }
   },
   {
@@ -953,8 +1088,1229 @@
       "member": 1,
       "product": 42,
       "room": 1,
-      "timestamp": "2017-03-13T13:38:10.573+00:00",
+      "timestamp": "2017-03-13T13:38:10.573Z",
       "price": 300
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+      "action_time": "2025-01-13T23:27:21.879Z",
+      "user": 1,
+      "content_type": 13,
+      "object_id": "1",
+      "object_repr": "<div id=\"maanedens-oel\"></div>\r\n<script>\r\n  var p = \"Ny!\";\r\n  var elem = document.getElementById(\"maanedens-oel\").parentElement;\r\n  if (new Date().getDate() <= 7) {\r\n    elem.innerText = p;\r\n  }\r\n  el",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+      "action_time": "2025-01-13T23:27:58.382Z",
+      "user": 1,
+      "content_type": 13,
+      "object_id": "2",
+      "object_repr": "Udg\u00e5r! (Apache attack helicopter)",
+      "action_flag": 1,
+      "change_message": "[{\"added\": {}}]"
+    }
+  },
+  {
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+      "action_time": "2025-01-13T23:32:37.012Z",
+      "user": 1,
+      "content_type": 13,
+      "object_id": "1",
+      "object_repr": "<div id=\"maanedens-oel\"></div>\r\n<script>\r\n  var p = \"Ny!\";\r\n  var elem = document.getElementById(\"maanedens-oel\").parentElement;\r\n  // Set it to 7 and not 40 if you want the tests to break ;)\r\n  if (n",
+      "action_flag": 2,
+      "change_message": "[{\"changed\": {\"fields\": [\"Text\"]}}]"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add member",
+      "content_type": 1,
+      "codename": "add_member"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change member",
+      "content_type": 1,
+      "codename": "change_member"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete member",
+      "content_type": 1,
+      "codename": "delete_member"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can view member",
+      "content_type": 1,
+      "codename": "view_member"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can add news",
+      "content_type": 2,
+      "codename": "add_news"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can change news",
+      "content_type": 2,
+      "codename": "change_news"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can delete news",
+      "content_type": 2,
+      "codename": "delete_news"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can view news",
+      "content_type": 2,
+      "codename": "view_news"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can add old price",
+      "content_type": 3,
+      "codename": "add_oldprice"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can change old price",
+      "content_type": 3,
+      "codename": "change_oldprice"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can delete old price",
+      "content_type": 3,
+      "codename": "delete_oldprice"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can view old price",
+      "content_type": 3,
+      "codename": "view_oldprice"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add payment",
+      "content_type": 4,
+      "codename": "add_payment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change payment",
+      "content_type": 4,
+      "codename": "change_payment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete payment",
+      "content_type": 4,
+      "codename": "delete_payment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can view payment",
+      "content_type": 4,
+      "codename": "view_payment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Import batch payments",
+      "content_type": 4,
+      "codename": "import_batch_payments"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can add product",
+      "content_type": 5,
+      "codename": "add_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can change product",
+      "content_type": 5,
+      "codename": "change_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can delete product",
+      "content_type": 5,
+      "codename": "delete_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can view product",
+      "content_type": 5,
+      "codename": "view_product"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can add room",
+      "content_type": 6,
+      "codename": "add_room"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can change room",
+      "content_type": 6,
+      "codename": "change_room"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can delete room",
+      "content_type": 6,
+      "codename": "delete_room"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can view room",
+      "content_type": 6,
+      "codename": "view_room"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can add sale",
+      "content_type": 7,
+      "codename": "add_sale"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can change sale",
+      "content_type": 7,
+      "codename": "change_sale"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+      "name": "Can delete sale",
+      "content_type": 7,
+      "codename": "delete_sale"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+      "name": "Can view sale",
+      "content_type": 7,
+      "codename": "view_sale"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+      "name": "Can access sales reports",
+      "content_type": 7,
+      "codename": "access_sales_reports"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+      "name": "Can add category",
+      "content_type": 8,
+      "codename": "add_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+      "name": "Can change category",
+      "content_type": 8,
+      "codename": "change_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+      "name": "Can delete category",
+      "content_type": 8,
+      "codename": "delete_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+      "name": "Can view category",
+      "content_type": 8,
+      "codename": "view_category"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+      "name": "Can add mobile payment",
+      "content_type": 9,
+      "codename": "add_mobilepayment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+      "name": "Can change mobile payment",
+      "content_type": 9,
+      "codename": "change_mobilepayment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+      "name": "Can delete mobile payment",
+      "content_type": 9,
+      "codename": "delete_mobilepayment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+      "name": "Can view mobile payment",
+      "content_type": 9,
+      "codename": "view_mobilepayment"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+      "name": "MobilePaytool access",
+      "content_type": 9,
+      "codename": "mobilepaytool_access"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+      "name": "Can add named product",
+      "content_type": 10,
+      "codename": "add_namedproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+      "name": "Can change named product",
+      "content_type": 10,
+      "codename": "change_namedproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+      "name": "Can delete named product",
+      "content_type": 10,
+      "codename": "delete_namedproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+      "name": "Can view named product",
+      "content_type": 10,
+      "codename": "view_namedproduct"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+      "name": "Can add pending signup",
+      "content_type": 11,
+      "codename": "add_pendingsignup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+      "name": "Can change pending signup",
+      "content_type": 11,
+      "codename": "change_pendingsignup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+      "name": "Can delete pending signup",
+      "content_type": 11,
+      "codename": "delete_pendingsignup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+      "name": "Can view pending signup",
+      "content_type": 11,
+      "codename": "view_pendingsignup"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+      "name": "Sign-up Tool access",
+      "content_type": 11,
+      "codename": "signuptool_access"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+      "name": "Can add theme",
+      "content_type": 12,
+      "codename": "add_theme"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+      "name": "Can change theme",
+      "content_type": 12,
+      "codename": "change_theme"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+      "name": "Can delete theme",
+      "content_type": 12,
+      "codename": "delete_theme"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+      "name": "Can view theme",
+      "content_type": 12,
+      "codename": "view_theme"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+      "name": "Can add product note",
+      "content_type": 13,
+      "codename": "add_productnote"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+      "name": "Can change product note",
+      "content_type": 13,
+      "codename": "change_productnote"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+      "name": "Can delete product note",
+      "content_type": 13,
+      "codename": "delete_productnote"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+      "name": "Can view product note",
+      "content_type": 13,
+      "codename": "view_productnote"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+      "name": "Can add bread razzia",
+      "content_type": 14,
+      "codename": "add_breadrazzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+      "name": "Can change bread razzia",
+      "content_type": 14,
+      "codename": "change_breadrazzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+      "name": "Can delete bread razzia",
+      "content_type": 14,
+      "codename": "delete_breadrazzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+      "name": "Can view bread razzia",
+      "content_type": 14,
+      "codename": "view_breadrazzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+      "name": "Can host a foobar, fnugfald or bread razzia",
+      "content_type": 14,
+      "codename": "host_razzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+      "name": "Can add razzia entry old",
+      "content_type": 15,
+      "codename": "add_razziaentryold"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+      "name": "Can change razzia entry old",
+      "content_type": 15,
+      "codename": "change_razziaentryold"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+      "name": "Can delete razzia entry old",
+      "content_type": 15,
+      "codename": "delete_razziaentryold"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+      "name": "Can view razzia entry old",
+      "content_type": 15,
+      "codename": "view_razziaentryold"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+      "name": "Can add kiosk item",
+      "content_type": 16,
+      "codename": "add_kioskitem"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+      "name": "Can change kiosk item",
+      "content_type": 16,
+      "codename": "change_kioskitem"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+      "name": "Can delete kiosk item",
+      "content_type": 16,
+      "codename": "delete_kioskitem"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+      "name": "Can view kiosk item",
+      "content_type": 16,
+      "codename": "view_kioskitem"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+      "name": "Can add razzia",
+      "content_type": 17,
+      "codename": "add_razzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+      "name": "Can change razzia",
+      "content_type": 17,
+      "codename": "change_razzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+      "name": "Can delete razzia",
+      "content_type": 17,
+      "codename": "delete_razzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 73,
+    "fields": {
+      "name": "Can view razzia",
+      "content_type": 17,
+      "codename": "view_razzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 74,
+    "fields": {
+      "name": "Can browse razzias",
+      "content_type": 17,
+      "codename": "browse_razzia"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 75,
+    "fields": {
+      "name": "Can add razzia entry",
+      "content_type": 18,
+      "codename": "add_razziaentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 76,
+    "fields": {
+      "name": "Can change razzia entry",
+      "content_type": 18,
+      "codename": "change_razziaentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 77,
+    "fields": {
+      "name": "Can delete razzia entry",
+      "content_type": 18,
+      "codename": "delete_razziaentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 78,
+    "fields": {
+      "name": "Can view razzia entry",
+      "content_type": 18,
+      "codename": "view_razziaentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 79,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 19,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 80,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 19,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 81,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 19,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 82,
+    "fields": {
+      "name": "Can view log entry",
+      "content_type": 19,
+      "codename": "view_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 83,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 20,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 84,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 20,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 85,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 20,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 86,
+    "fields": {
+      "name": "Can view permission",
+      "content_type": 20,
+      "codename": "view_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 87,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 21,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 88,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 21,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 89,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 21,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 90,
+    "fields": {
+      "name": "Can view group",
+      "content_type": 21,
+      "codename": "view_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 91,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 22,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 92,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 22,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 93,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 22,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 94,
+    "fields": {
+      "name": "Can view user",
+      "content_type": 22,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 95,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 23,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 96,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 23,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 97,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 23,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 98,
+    "fields": {
+      "name": "Can view content type",
+      "content_type": 23,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 99,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 24,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 100,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 24,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 101,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 24,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 102,
+    "fields": {
+      "name": "Can view session",
+      "content_type": 24,
+      "codename": "view_session"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$Kt88MhSU3wsBuvk5eaezwQ$MV3CgIHzoVRz9GUh30vZTR6m0pEIJaiUtPEvN+QQye8=",
+      "last_login": "2025-01-13T23:26:16.491Z",
+      "is_superuser": true,
+      "username": "tester",
+      "first_name": "test",
+      "last_name": "testsen",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-01-13T23:25:49.245Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "q",
+      "first_name": "q",
+      "last_name": "q",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2025-01-13T23:25:49.247Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "nodough",
+      "first_name": "no",
+      "last_name": "dough",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-01-13T23:25:49.247Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$30000$ivRA8qABWClG$pxi2R4uyotlGpwa66RQuDOXFaO9JElQutMFJqXmnOdI=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "lowdough",
+      "first_name": "low",
+      "last_name": "dough",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-01-13T23:25:49.248Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "member"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "news"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "oldprice"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "payment"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "product"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "room"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "sale"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "category"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "mobilepayment"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "namedproduct"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "pendingsignup"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "theme"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": {
+      "app_label": "stregsystem",
+      "model": "productnote"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": {
+      "app_label": "stregreport",
+      "model": "breadrazzia"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": {
+      "app_label": "stregreport",
+      "model": "razziaentryold"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": {
+      "app_label": "kiosk",
+      "model": "kioskitem"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 17,
+    "fields": {
+      "app_label": "razzia",
+      "model": "razzia"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 18,
+    "fields": {
+      "app_label": "razzia",
+      "model": "razziaentry"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 19,
+    "fields": {
+      "app_label": "admin",
+      "model": "logentry"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 20,
+    "fields": {
+      "app_label": "auth",
+      "model": "permission"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 21,
+    "fields": {
+      "app_label": "auth",
+      "model": "group"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 22,
+    "fields": {
+      "app_label": "auth",
+      "model": "user"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 23,
+    "fields": {
+      "app_label": "contenttypes",
+      "model": "contenttype"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 24,
+    "fields": {
+      "app_label": "sessions",
+      "model": "session"
     }
   },
   {

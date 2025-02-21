@@ -355,7 +355,8 @@
     "model": "stregsystem.product",
     "pk": 51,
     "fields": {
-      "name": "<h1>Futtetyr</h1>",
+      "name": "Futtetyr",
+      "name_style": "font-size: 2em;\nfont-weight: bold;\ncolor: red;\nmargin: .5em 0;",
       "price": 33300,
       "active": true,
       "start_date": null,
@@ -395,7 +396,8 @@
     "model": "stregsystem.product",
     "pk": 1836,
     "fields": {
-      "name": "<h1>FLAN billet</h1>",
+      "name": "FLAN billet",
+      "name_style": "font-size: 2em;\nfont-weight: bold;\ncolor: red;\nmargin: .5em 0;",
       "price": 4269,
       "active": true,
       "start_date": null,
@@ -613,7 +615,9 @@
     "model": "stregsystem.product",
     "pk": 1903,
     "fields": {
-      "name": "<h3>Månedens Øl</h3><br>September: Bonk Beer",
+      "name": "Månedens Øl",
+      "name_style": "font-size: 1.15em;\nfont-weight: bold;\nmargin: 1em 0;",
+      "description": "September: Bonk Beer",
       "price": 1460,
       "active": true,
       "start_date": null,
@@ -715,8 +719,8 @@
     "fields": {
       "text": "<div id=\"maanedens-oel\"></div>\r\n<script>\r\n  var p = \"Ny!\";\r\n  var elem = document.getElementById(\"maanedens-oel\").parentElement;\r\n  // Set it to 7 and not 40 if you want the tests to break ;)\r\n  if (new Date().getDate() <= 40) {\r\n    elem.innerText = p;\r\n  }\r\n  else {\r\n    elem.remove();\r\n  }\r\n</script>",
       "active": true,
-      "background_color": "Yellow",
-      "text_color": "",
+      "background_color": "yellow",
+      "text_color": "black",
       "start_date": "2025-01-14",
       "end_date": "2125-01-14",
       "comment": "",
@@ -732,8 +736,8 @@
     "fields": {
       "text": "Udgår!",
       "active": true,
-      "background_color": "",
-      "text_color": "",
+      "background_color": "red",
+      "text_color": "black",
       "start_date": "2025-01-14",
       "end_date": "2125-01-14",
       "comment": "",

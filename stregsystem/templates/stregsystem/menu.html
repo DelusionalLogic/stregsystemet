@@ -83,33 +83,69 @@
         {% csrf_token %}
         <input type="hidden" value="{{ room.id }}" name="room_id">
         <input type="hidden" value="{{ member.id }}" name="member_id">
-        <div class="horizontal-table">
+        <div id="product-overview" class="horizontal-table">
           <table class="default">
             <tr>
               <th>Produkt</th>
               <th>Pris</th>
             </tr>
-            {% for product in product_list|partition:"2"|first %}
+            {% for pair in product_note_pair_list|partition:"2"|first %}
               <tr>
                 <td>
-                  <button value="{{ product.id }}" name="product_id" class="linkalike">{{product.name}}</button>
+                  <button value="{{ pair.product.id }}" name="product_id" class="linkalike">
+                    {% for note in pair.note %}
+                      <span class="note-box" style="background-color: {{note.background_color}}; color: {{note.text_color}}">{{note.text}}</span>
+                    {% endfor %}
+                    <span
+                      class="name"
+                      {% if pair.product.name_style %}
+                        style="{{pair.product.name_style}}"
+                      {% endif %}
+                    >
+                      {{pair.product.name}}
+                    </span>
+                    {% if pair.product.description %}
+                      <br>
+                      <span class="description">
+                        {{pair.product.description}}
+                      </span>
+                    {% endif %} 
+                  </button>
                 </td>
-                <td class="price">{{product.price|money}} kr</td>
+                <td class="price">{{pair.product.price|money}} kr</td>
               </tr>
             {% endfor %}
           </table>
-          {% if product_list|partition:"2"|last %}
+          {% if product_note_pair_list|partition:"2"|last %}
             <table class="default">
               <tr>
                 <th>Produkt</th>
                 <th>Pris</th>
               </tr>
-              {% for product in product_list|partition:"2"|last %}
+              {% for pair in product_note_pair_list|partition:"2"|last %}
               <tr>
                 <td>
-                  <button value="{{ product.id }}" name="product_id" class="linkalike">{{product.name}}</button>
+                  <button value="{{ pair.product.id }}" name="product_id" class="linkalike">
+                    {% for note in pair.note %}
+                      <span class="note-box" style="background-color: {{note.background_color}}; color: {{note.text_color}}">{{note.text}}</span>
+                    {% endfor %}
+                    <span
+                      class="name"
+                      {% if pair.product.name_style %}
+                        style="{{pair.product.name_style}}"
+                      {% endif %}
+                    >
+                      {{pair.product.name}}
+                    </span>
+                    {% if pair.product.description %}
+                      <br>
+                      <span class="description">
+                        {{pair.product.description}}
+                      </span>
+                    {% endif %} 
+                  </button>
                 </td>
-                <td class="price">{{product.price|money}} kr</td>
+                <td class="price">{{pair.product.price|money}} kr</td>
               </tr>
               {% endfor %}
             </table>

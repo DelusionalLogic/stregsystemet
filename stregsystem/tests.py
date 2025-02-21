@@ -810,7 +810,7 @@ class ProductNoteTest(TestCase):
             text="COLORED-NOTE",
             start_date=datetime.date.today(),
             end_date=datetime.date.today(),
-            background_color="Yellow",
+            background_color="yellow",
         )
         self.test_product_note.save()
         self.test_product_note.products.add(test_product)
@@ -820,7 +820,7 @@ class ProductNoteTest(TestCase):
 
         self.assertContains(
             response,
-            "<div class=\"note-box\" style=\"background-color: Yellow; color: \">COLORED-NOTE</div>",
+            "<span class=\"note-box\" style=\"background-color: yellow; color: black\">COLORED-NOTE</span>",
             html=True,
         )
 

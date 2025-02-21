@@ -139,6 +139,8 @@ class ProductAdmin(admin.ModelAdmin):
     )
     fields = (
         "name",
+        "name_style",
+        "description",
         "price",
         ("active", "deactivate_date"),
         ("start_date", "quantity", "get_bought"),

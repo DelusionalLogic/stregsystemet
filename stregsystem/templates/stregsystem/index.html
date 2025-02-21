@@ -26,13 +26,6 @@
     margin-top: 1.5em;
     margin-bottom: 1.5em;
   }
-  .note-box {
-    display: inline;
-    padding: 2px 4px 2px 4px;
-    border-radius: 8px;
-    color: black;
-    background-color: red;
-  }
 </style>
 {% endblock %}
 
@@ -66,7 +59,7 @@
 
   <div id="message">{% block message %}{% endblock %}</div>
 
-  <div class="horizontal-table">
+  <div id="product-overview" class="horizontal-table">
     {% block products %}
       {% if product_note_pair_list %}
         {% autoescape off %}
@@ -83,9 +76,22 @@
               </td>
               <td>
                 {% for note in pair.note %}
-                  <div class="note-box" style="background-color: {{note.background_color}}; color: {{note.text_color}}">{{note.text}}</div>
+                  <span class="note-box" style="background-color: {{note.background_color}}; color: {{note.text_color}}">{{note.text}}</span>
                 {% endfor %}
-                <span style="display: inline-block">{{pair.product.name}}</span>    
+                <span
+                  class="name"
+                  {% if pair.product.name_style %}
+                    style="{{pair.product.name_style}}"
+                  {% endif %}
+                >
+                  {{pair.product.name}}
+                </span>
+                {% if pair.product.description %}
+                  <br>
+                  <span class="description">
+                    {{pair.product.description}}
+                  </span>
+                {% endif %} 
               </td>
               <td class="price">{{pair.product.price|money}} kr</td>
             </tr>
@@ -103,9 +109,22 @@
                 <td>{{pair.product.id|product_id_and_alias_string}}</td>
                 <td>
                   {% for note in pair.note %}
-                    <div class="note-box" style="background-color: {{note.background_color}}; color: {{note.text_color}}">{{note.text}}</div>
+                    <span class="note-box" style="background-color: {{note.background_color}}; color: {{note.text_color}}">{{note.text}}</span>
                   {% endfor %}
-                  <span style="display: inline-block">{{pair.product.name}}</span>   
+                  <span
+                    class="name"
+                    {% if pair.product.name_style %}
+                      style="{{pair.product.name_style}}"
+                    {% endif %}
+                  >
+                    {{pair.product.name}}
+                  </span>
+                  {% if pair.product.description %}
+                    <br>
+                    <span class="description">
+                      {{pair.product.description}}
+                    </span>
+                  {% endif %} 
                 </td>
                 <td class="price">{{pair.product.price|money}} kr</td>
               </tr>

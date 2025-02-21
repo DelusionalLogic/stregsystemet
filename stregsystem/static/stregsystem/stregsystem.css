@@ -79,9 +79,12 @@ button {
     font: inherit;
     text-decoration: underline;
     color: LinkText;
-
-    &:active{
+    &:active {
       color: ActiveText;
+    }
+
+    & * {
+      text-decoration: underline;
     }
   }
 }
@@ -136,6 +139,19 @@ table.default {
 table h2, table h3 {
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+#product-overview {
+  & button {
+    text-align: left;
+  }
+  & span {
+    display: inline-block;
+  }
+  & .note-box  {
+    padding: 2px 4px 2px 4px;
+    border-radius: 8px;
+  }
 }
 
 .center-around {
