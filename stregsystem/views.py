@@ -13,6 +13,8 @@ from collections import (
     namedtuple,
 )
 
+from django.utils.safestring import mark_safe
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import permission_required
 from django.core import management
@@ -54,6 +56,7 @@ from stregsystem.utils import (
     parse_csv_and_create_mobile_payments,
     PaymentToolException,
     make_unprocessed_signups_query,
+    insert_gdpr_span,
 )
 
 from .booze import ballmer_peak
@@ -131,9 +134,12 @@ def sale(request, room_id):
     try:
         username, bought_ids = parser.parse(_pre_process(buy_string))
     except parser.QuickBuyError as err:
+        correct = mark_safe(insert_gdpr_span(err.parsed_part))
+        incorrect = mark_safe(insert_gdpr_span(err.failed_part))
+
         values = {
-            'correct': err.parsed_part,
-            'incorrect': err.failed_part,
+            'correct': correct,
+            'incorrect': incorrect,
             'error_ptr': '~' * (len(err.parsed_part)) + '^',
             'error_msg': ' ' * (len(err.parsed_part) - 4) + 'Fejl her',
             'room': room,

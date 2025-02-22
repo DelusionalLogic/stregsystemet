@@ -2,6 +2,11 @@
 
 {% load stregsystem_extras %}
 
+{% block head %}
+{{ block.super }}
+{% include "stregsystem/gdpr.html" %}
+{% endblock %}
+
 {% block headline %}
 <div>Du forsøgte at bruge quickbuy men fejlede.</div>
 <div>This incident will be reported.</div>

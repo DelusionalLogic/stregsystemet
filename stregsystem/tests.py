@@ -46,7 +46,12 @@ from stregsystem.models import (
 )
 from stregsystem.purchase_heatmap import prepare_heatmap_template_context
 from stregsystem.templatetags.stregsystem_extras import caffeine_emoji_render
-from stregsystem.utils import mobile_payment_exact_match_member, strip_emoji, PaymentToolException
+from stregsystem.utils import (
+    mobile_payment_exact_match_member,
+    strip_emoji,
+    PaymentToolException,
+    insert_gdpr_span,
+)
 from stregsystem.mail import data_sent
 
 
@@ -2283,3 +2288,23 @@ class MailTests(TestCase):
 
         signup_request.approve()
         mock_mail_method.assert_called_once()
+
+
+class MiscUtilTests(TestCase):
+    fixtures = ['initial_data']
+
+    def test_gdpr_is_inserted(self):
+        assumed_user = "jokke"
+        assumed_non_user = "nonuser"
+
+        simple_quickbuy = assumed_user
+        simple_gdpr_quickbuy = insert_gdpr_span(simple_quickbuy)
+        expected_simple_gdpr_quickbuy = '<span class="username">' + assumed_user + '</span>'
+
+        self.assertEqual(simple_gdpr_quickbuy, expected_simple_gdpr_quickbuy)
+
+        advanced_quickbuy = assumed_user + " " + assumed_non_user
+        advanced_gdpr_quickbuy = insert_gdpr_span(advanced_quickbuy)
+        expected_advanced_gdpr_quickbuy = '<span class="username">' + assumed_user + '</span> ' + assumed_non_user
+
+        self.assertEqual(advanced_gdpr_quickbuy, expected_advanced_gdpr_quickbuy)
