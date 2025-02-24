@@ -12,3 +12,33 @@
 		inset: 0;
 	}
 }
+
+/* Rocket-related styles */
+#rocket-launch {
+	position: absolute;
+	bottom: 10%; /* Start from the bottom of the screen */
+	left: 50%; /* Center horizontally */
+	transform: translateX(-50%);
+	animation: rocket-takeoff 5s ease-in-out infinite; /* Customize animation */
+}
+
+#rocket-launch img {
+	width: 50px; /* Adjust rocket size */
+	height: auto;
+}
+
+/* Rocket animation */
+@keyframes rocket-takeoff {
+	0% {
+		transform: translate(-50%, 100%); /* Start off-screen */
+		opacity: 0.5;
+	}
+	50% {
+		transform: translate(-50%, -50%); /* Move upward */
+		opacity: 1;
+	}
+	100% {
+		transform: translate(-50%, -200%); /* Move out of view */
+		opacity: 0;
+	}
+}
