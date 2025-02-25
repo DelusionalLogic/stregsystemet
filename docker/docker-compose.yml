@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      - MYSQL_DATABASE=stregsystem
+      - MYSQL_ROOT_PASSWORD=juststars
+      - MYSQL_USER=stregsystem
+      - MYSQL_PASSWORD=hunter2
+      - MYSQL_ROOT_HOST=172.17.0.1
+    ports:
+      - 3306:3306
